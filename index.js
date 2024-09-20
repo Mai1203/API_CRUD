@@ -1,12 +1,12 @@
 // import { Express } from 'express'
 
-const express = require('express')
-const app = express()
+const express = require("express");
+const app = express();
 
 app.listen(3000, () => {
-  console.log("Server corriendo en el puerto 3000")
-})
+  console.log("Server corriendo en el puerto 3000");
+});
 
-app.get('/', (req, res) => {
-  res.send("Hola desde Node API")
-})
+app.get("/", (req, res) => {
+  res.send("Hola desde Node API en curso desde vs studio");
+});
