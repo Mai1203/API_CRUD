@@ -38,6 +38,22 @@ app.post("/api/products", async (req, res) => {
   }
 });
 
+app.put("/api/products/:id", async (req, res) => {
+  try {
+    const {id} = req.params;
+    const product = await Product.findByIdAndUpdate(id, req.body)
+    if (!product) {
+      return res.status(404).json({ message: "No se encontro el producto" });
+    }
+    const updatedProduct = await Product.findById(id);
+
+    res.status(200).json(updatedProduct);
+  }catch (err) {
+    res.status(500).json({ mesage: err.message });
+  }
+})
+
+
 mongoose
   .connect(
     "mongodb+srv://maicolcoralbravo:eWG9Wc0q2mmtys8n@cluster0.y3h8j.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
