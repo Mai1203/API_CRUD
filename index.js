@@ -5,6 +5,7 @@ const Product = require("./models/productsmodel");
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send("Hola desde Node API en curso desde vs studio");
@@ -53,6 +54,18 @@ app.put("/api/products/:id", async (req, res) => {
   }
 })
 
+app.delete("/api/products/:id", async (req, res) => { 
+  try {
+    const {id} = req.params;
+    const productDelete = await Product.findByIdAndDelete(id);
+    if (!productDelete) {
+      return res.status(404).json({ message: "No se encontro el producto" });
+    }
+    res.status(200).json({ message: "Producto eliminado" });
+  } catch (err) {
+    res.status(500).json({ mesage: err.message });
+  }
+});
 
 mongoose
   .connect(
