@@ -1,16 +1,41 @@
 // import { Express } from 'express'
 const express = require("express");
-
 const mongoose = require("mongoose");
+const Product = require("./models/productsmodel");
 const app = express();
+
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hola desde Node API en curso desde vs studio");
 });
 
-app.post("/api/products", (req, res) => {
-  console.log(req.body);
-  res.send(req.body);
+app.get("/api/products", async (req, res) => { 
+  try {
+    const product = await Product.find({});
+    res.status(200).json(product);
+  } catch (err) {
+    res.status(500).json({ mesage: err.message });
+  }
+});
+
+app.get("/api/products/:id", async (req, res) => {
+  try {
+    const {id} = req.params;
+    const product = await Product.findById(id);
+    res.status(200).json(product);
+  } catch (err) {
+    res.status(500).json({ mesage: err.message });
+  }
+});
+
+app.post("/api/products", async (req, res) => {
+  try {
+    const product = await Product.create(req.body);
+    res.status(200).json(product);
+  } catch (err) {
+    res.status(500).json({ mesage: err.message });
+  }
 });
 
 mongoose
